@@ -37,7 +37,7 @@ class TweetController {
     const data = request.only(["content"]);
 
     const tweet = await Tweet.create({ ...data, user_id: id });
-
+    await tweet.load("user");
     return tweet;
   }
 }
