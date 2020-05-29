@@ -20,7 +20,10 @@ class UserController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {}
+  async show({ params, request, response, view, auth }) {
+    const user = await User.findOrFail(auth.current.user.id);
+    return user;
+  }
 
   /**
    * Update tweet details.
