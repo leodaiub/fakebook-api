@@ -23,6 +23,6 @@ Route.post("/users", "UserController.create");
 Route.post("/sessions", "SessionController.create");
 Route.resource("posts", "PostController").apiOnly().middleware("auth");
 Route.resource("users", "UserController").apiOnly().middleware("auth");
-Route.resource("shares", "ShareController").apiOnly().middleware("auth");
+// Route.resource("shares", "ShareController").apiOnly().middleware("auth");
 Route.resource("likes", "LikeController").apiOnly().middleware("auth");
 Route.resource("comments", "CommentController").apiOnly().middleware("auth");

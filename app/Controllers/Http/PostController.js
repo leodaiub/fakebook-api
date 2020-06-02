@@ -23,9 +23,9 @@ class PostController {
       .orderBy("created_at", "desc")
       .with("user")
       .with("likes")
-      .with("shares")
+      // .with("shares")
       .withCount("likes")
-      .withCount("shares")
+      // .withCount("shares")
       .withCount("comments")
       .paginate(request.input("page"), 5);
     return posts;
@@ -68,9 +68,9 @@ class PostController {
       .orderBy("created_at", "desc")
       .with("user")
       .with("likes")
-      .with("shares")
+      // .with("shares")
       .withCount("likes")
-      .withCount("shares")
+      // .withCount("shares")
       .withCount("comments")
       .fetch();
     return posts;

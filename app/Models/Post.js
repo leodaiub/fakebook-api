@@ -13,9 +13,9 @@ class Post extends Model {
   likes() {
     return this.hasMany("App/Models/Like");
   }
-  shares() {
-    return this.hasMany("App/Models/Share");
-  }
+  //   shares() {
+  //     return this.hasMany("App/Models/Share");
+  //   }
 }
 
 module.exports = Post;
