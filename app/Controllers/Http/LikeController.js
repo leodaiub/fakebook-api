@@ -81,7 +81,11 @@ class LikeController {
 
   /**
    * Update like details.
-   * PUT or PATCH likes/:id
+   * PUT or PATCH likes/:idconst user = await User.findOrFail(params.id);
+      const profileImg = await Cloudinary.upload(request.file("profile_img"));
+      user.merge({ profile_img: profileImg.url });
+      await user.save();
+      return user;
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -97,7 +101,11 @@ class LikeController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, request, response }) {
+    const like = await Like.findOrFail(params.id);
+    await like.delete();
+    return like;
+  }
 }
 
 module.exports = LikeController;
