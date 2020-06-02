@@ -4,6 +4,11 @@ const User = use("App/Models/User");
 const Cloudinary = use("App/Services/Cloudinary");
 
 class UserController {
+  async index({ params, request, response, view, auth }) {
+    const user = await User.findOrFail(auth.current.user.id);
+    return user;
+  }
+
   async create({ request }) {
     const data = request.only(["username", "email", "password"]);
 
@@ -34,16 +39,19 @@ class UserController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    if (request.file("profile_img") && request.file("cover_img")) {
+    if (request.file("profile_img")) {
       const user = await User.findOrFail(params.id);
-
-      const coverImg = await Cloudinary.upload(request.file("cover_img"));
       const profileImg = await Cloudinary.upload(request.file("profile_img"));
-      user.merge({ profile_img: profileImg.url, cover_img: coverImg.url });
+      user.merge({ profile_img: profileImg.url });
+      await user.save();
+      return user;
+    } else {
+      const user = await User.findOrFail(params.id);
+      const data = request.only("username");
+      user.merge({ username: data.username });
       await user.save();
       return user;
     }
-    return response.json({ status: false, data: "Please upload an Image." });
   }
 }
 
