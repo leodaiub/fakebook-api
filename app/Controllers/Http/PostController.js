@@ -3,15 +3,15 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Tweet = use("App/Models/Tweet");
+const Post = use("App/Models/Post");
 
 /**c
- * Resourceful controller for interacting with tweets
+ * Resourceful controller for interacting with posts
  */
-class TweetController {
+class PostController {
   /**
-   * Show a list of all tweets.
-   * GET tweets
+   * Show a list of all posts.
+   * GET posts
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -19,16 +19,21 @@ class TweetController {
    * @param {View} ctx.view
    */
   async index({ params, request, response, view }) {
-    const tweets = Tweet.query()
+    const posts = Post.query()
       .orderBy("created_at", "desc")
       .with("user")
+      .with("likes")
+      .with("shares")
+      .withCount("likes")
+      .withCount("shares")
+      .withCount("comments")
       .paginate(request.input("page"), 5);
-    return tweets;
+    return posts;
   }
 
   /**
-   * Show a list of all tweets.
-   * SHOW tweets
+   * Show a list of all posts.
+   * SHOW posts
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -36,17 +41,17 @@ class TweetController {
    * @param {View} ctx.view
    */
   async show({ request, auth }) {
-    const tweets = Tweet.query()
+    const posts = Post.query()
       .where("user_id", auth.current.user.id)
       .orderBy("created_at", "desc")
       .with("user")
       .paginate(request.input("page"), 5);
-    return tweets;
+    return posts;
   }
 
   /**
-   * Create/save a new tweet.
-   * POST tweets
+   * Create/save a new Post.
+   * POST posts
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -56,10 +61,20 @@ class TweetController {
     const { id } = auth.user;
     const data = request.only(["content"]);
 
-    const tweet = await Tweet.create({ ...data, user_id: id });
-    await tweet.load("user");
-    return tweet;
+    const post = await Post.create({ ...data, user_id: id });
+
+    const posts = Post.query()
+      .where("id", post.id)
+      .orderBy("created_at", "desc")
+      .with("user")
+      .with("likes")
+      .with("shares")
+      .withCount("likes")
+      .withCount("shares")
+      .withCount("comments")
+      .fetch();
+    return posts;
   }
 }
 
-module.exports = TweetController;
+module.exports = PostController;

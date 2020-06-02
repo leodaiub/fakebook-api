@@ -21,5 +21,5 @@ Route.get("/", () => {
 });
 Route.post("/users", "UserController.create");
 Route.post("/sessions", "SessionController.create");
-Route.resource("tweets", "TweetController").apiOnly().middleware("auth");
+Route.resource("posts", "PostController").apiOnly().middleware("auth");
 Route.resource("users", "UserController").apiOnly().middleware("auth");

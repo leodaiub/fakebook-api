@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class TweetSchema extends Schema {
+class PostSchema extends Schema {
   up() {
-    this.create("tweets", (table) => {
+    this.create("posts", (table) => {
       table.increments();
       table
         .integer("user_id")
@@ -20,8 +20,8 @@ class TweetSchema extends Schema {
   }
 
   down() {
-    this.drop("tweets");
+    this.drop("posts");
   }
 }
 
-module.exports = TweetSchema;
+module.exports = PostSchema;
