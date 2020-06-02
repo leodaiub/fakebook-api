@@ -1,5 +1,7 @@
 # Adonis API application
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b7d060ae618e4c93b5599ee72e66633b)](https://app.codacy.com/manual/leodaiub/twitter-clone-api?utm_source=github.com&utm_medium=referral&utm_content=leodaiub/twitter-clone-api&utm_campaign=Badge_Grade_Dashboard)
+
 This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
 
 1. Bodyparser
